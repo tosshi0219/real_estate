@@ -3,6 +3,7 @@ from preprocess import Preprocess
 from inference import Inference
 from learning import Learning
 from postprocess import Postprocess,Email
+from datetime import datetime
 
 mode=input('which mode do you use "learning" or "inference"?')
 
@@ -56,6 +57,7 @@ if mode == 'learning':
 
 elif mode == 'inference':
     data_version=datetime.now().strftime("%Y%m%d")
+    model_version=input('which model do you use? ex.original...')
     #spec取得
     get_spec=GetSpec(data_version)
     page_num=get_spec.get_page_num()
@@ -78,7 +80,7 @@ elif mode == 'inference':
     get_spec.output(specs)
 
     #preprocess        
-    prep = Preprocess(mode)
+    prep = Preprocess(mode,data_version,model_version)
     spec=prep.load_spec()
     spec=prep.pre_price(spec)
     spec=prep.pre_bid(spec)

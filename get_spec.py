@@ -40,11 +40,11 @@ class GetSpec():
         return urls
 
     def get_pages(self,urls):
-        interval=2
+        interval=0.5
         print('検索結果ページのhtmlを{}秒おきに取得'.format(interval))
         pages=[]
-        for i in range(len(urls)):
-#         for i in range(1):
+#         for i in range(len(urls)):
+        for i in range(1):
             if i%10==0:
                 print('検索結果ページのhtml取得中...{0}/{1}ページ'.format(i,len(urls)))
             time.sleep(interval)
@@ -100,7 +100,7 @@ class GetSpec():
         return links
 
     def get_link_pages(self,links):
-        interval=2
+        interval=0.5
         print('各物件のhtmlを{}秒おきに取得'.format(interval))
         link_pages=[]
 #         for i in range(len(links)):
