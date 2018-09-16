@@ -1,10 +1,8 @@
-import sys
-sys.path.append('/Users/toshio/project/real_estate')
-from src.crawler import Crawler
-from src.preprocess_purchase import PreprocessPurchase
-from src.inference import Inference
-from src.learning_purchase import Learning
-from src.postprocess import Postprocess,Email
+from crawler import Crawler
+from preprocess_purchase import PreprocessPurchase
+from inference import Inference
+from learning_purchase import Learning
+from postprocess import Postprocess,Email
 from datetime import datetime
 
 data_version = datetime.now().strftime("%Y%m%d")

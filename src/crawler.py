@@ -11,11 +11,7 @@ import time
 import pickle
 import pandas as pd
 from datetime import datetime
-import sys
-import os
-
-sys.path.append('/Users/toshio/project/real_estate')
-from config import rent_col, purchase_col
+from config import *
 
 class Crawler:
     def __init__(self, data_version, target):
@@ -27,13 +23,13 @@ class Crawler:
         elif self.target == 'purchase':
             self.url = 'http://www.fudousan.or.jp/system/?act=l&type=12&pref=13'
             self.bid_url = 'http://www.fudousan.or.jp/system/?act=d&type=12&pref=13&n=100&p=1&v=off&s=&bid='
-            
+
         self.page_url = lambda i: self.url+'&n=100&p='+str(i)+'&v=off,s='
         self.store_dir = '../storage/'
         self.save_dir = '../intermediate_data/'
         self.save_path = self.save_dir + \
             '{}_spec_{}.pickle'.format(self.target, self.data_version)
-            
+
         self.page_num = self.get_page_num()
         self.urls = self.get_urls(self.page_num)
         self.bids = self.get_bids(self.urls)
@@ -66,7 +62,7 @@ class Crawler:
         set_timeout = 300
         bids = []
         for i in range(len(urls)):
-#         for i in range(1):
+        # for i in range(1):
             if i % 10 == 0:
                 print('bid番号取得中...{0}/{1}'.format(i, len(urls)))
             page_i = requests.get(urls[i], timeout = set_timeout)
@@ -78,15 +74,15 @@ class Crawler:
                     if bid_st != -1:
                         bid_num = tag.get('href')[bid_st+4:bid_st+bid_len]
                         bids.append(bid_num)
-        
-        bids = self.delete_duplication(bids) 
+
+        bids = self.delete_duplication(bids)
         return bids
 
     def load_bids(self):
         with open(self.store_dir+'bids.pickle', 'rb') as f:
             all_bids = pickle.load(f)
         return all_bids
-    
+
     def delete_duplication(self, bids):
         # 重複したbit番号を削除
         return list(set(bids))
@@ -97,7 +93,7 @@ class Crawler:
         for i in bids:
             links.append(self.bid_url+str(i))
         return links
-    
+
     def get_link_pages(self, bids):
         links = self.get_links(bids)
         connect_timeout = 1000
@@ -125,7 +121,7 @@ class Crawler:
         end = len(links)
         with open(self.store_dir+'response_{}-{}_{}.pickle'.format(st, end, self.data_version), 'wb') as f:
             pickle.dump(link_pages, f)
-        
+
     def load_link_pages(self, load_date):
         # htmlをpickle化したものをロード
         specs = []

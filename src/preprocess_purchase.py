@@ -3,11 +3,7 @@ import numpy as np
 from datetime import datetime, timezone, timedelta
 from sklearn import preprocessing
 import pickle
-
-import sys
-import os
-sys.path.append('/Users/toshio/project/real_estate')
-from config import dropcol_purchase
+from config import *
 
 class PreprocessPurchase:
     def __init__(self,mode,data_version,encoder_version):
@@ -15,7 +11,7 @@ class PreprocessPurchase:
         if mode=='inference':
             self.data_version=data_version #推論対象となるデータセットのversion
             self.encoder_version=encoder_version #モデルのversion
-            self.encoder_path='../label/label_encoder_purchase_{}.pickle'.format(self.encoder_version)
+            self.encoder_path= '../label/label_encoder_purchase_{}.pickle'.format(self.encoder_version)
             self.save_path='../intermediate_data/preprocessed_purchase_for_inference_{}.pickle'.format(self.data_version)
 
         elif mode=='learning':
@@ -43,7 +39,7 @@ class PreprocessPurchase:
             self.spec=self.pre_outlier(self.spec)
             self.spec=self.del_bid(self.spec)
         self.save_spec(self.spec)
-        
+
     def load_spec(self):
         with open(self.load_path,'rb') as f:
             spec=pickle.load(f)
